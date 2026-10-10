@@ -70,6 +70,8 @@ public final class DistantFx implements ModInitializer {
             var key = entity.typeHolder().unwrapKey();
             if (key.isEmpty()) return false;
             var id = key.get().identifier();
+            // NTM Air Defense's SAMs and practice targets are all long-range flyers.
+            if (id.getNamespace().equals("ntm_air_defense")) return true;
             return id.getNamespace().equals("hbm") && entities.matcher(id.getPath()).matches();
         });
     }

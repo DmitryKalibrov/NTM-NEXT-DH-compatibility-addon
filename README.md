@@ -23,7 +23,7 @@
 
 - `range=4096` — блоки; ставь примерно равным дальности LOD в DH.
 - `minEffectRadius=150` — с какого радиуса пакет эффекта считается взрывом.
-- `entities=...` — regex по id сущностей `hbm:*`.
+- `entities=...` — regex по id сущностей `hbm:*`. Все сущности [NTM Air Defense](https://github.com/DmitryKalibrov/NTM-NEXT-Air-Defense) (зенитные ракеты, мишени) видны издалека всегда.
 - `contrailSeconds=30` — сколько живёт инверсионный след ракеты; `0` выключает.
 - `lodDepth=true` — перенос глубины LOD (выключи, если появятся артефакты на границе ванильных чанков и LOD).
 
@@ -32,4 +32,4 @@
 ```
 gradlew build
 ```
-Нужен JDK 25. Jar: `build/libs/ntm-dh-compat-1.1.0.jar`.
+Нужен JDK 25. Jar: `build/libs/ntm-dh-compat-1.1.1.jar`.
