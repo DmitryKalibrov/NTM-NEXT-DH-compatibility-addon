@@ -4,13 +4,16 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "TrackedEntityMixin",
-    "TargetPointMixin"
+    "TargetPointMixin",
+    "NukeExplosionMixin",
+    "FalloutRainMixin"
   ],
   "client": [
     "CameraMixin",
     "ClientLevelMixin",
     "LevelExtractorMixin",
-    "NukeTorexMixin"
+    "NukeTorexMixin",
+    "MissileContrailMixin"
   ],
   "injectors": {
     "defaultRequire": 1

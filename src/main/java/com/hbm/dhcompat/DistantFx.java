@@ -27,6 +27,10 @@ public final class DistantFx implements ModInitializer {
     public static double minEffectRadius = 150;
     /** Write DH LOD depth into the vanilla depth buffer so LOD terrain occludes clouds/missiles/particles. */
     public static boolean lodDepth = true;
+    /** Seconds a missile contrail puff lives; 0 disables the trail. */
+    public static int contrailSeconds = 30;
+    /** Distant Horizons is installed. */
+    public static boolean dh;
     /** Registry paths in the "hbm" namespace that are tracked/rendered at {@link #range}. */
     public static Pattern entities = Pattern.compile(
             "nuke_torex|cloud_.*|missile_.*|entity_.*missile.*|entity_black_hole|entity_emp_blast|entity_laser_blast");
@@ -41,6 +45,7 @@ public final class DistantFx implements ModInitializer {
         p.setProperty("minEffectRadius", String.valueOf(minEffectRadius));
         p.setProperty("entities", entities.pattern());
         p.setProperty("lodDepth", String.valueOf(lodDepth));
+        p.setProperty("contrailSeconds", String.valueOf(contrailSeconds));
         try {
             if (Files.exists(file)) {
                 try (Reader r = Files.newBufferedReader(file)) { p.load(r); }
@@ -49,12 +54,15 @@ public final class DistantFx implements ModInitializer {
             minEffectRadius = Double.parseDouble(p.getProperty("minEffectRadius").trim());
             entities = Pattern.compile(p.getProperty("entities").trim());
             lodDepth = Boolean.parseBoolean(p.getProperty("lodDepth").trim());
+            contrailSeconds = Integer.parseInt(p.getProperty("contrailSeconds").trim());
             try (Writer w = Files.newBufferedWriter(file)) {
                 p.store(w, "NTM x Distant Horizons. range: blocks (server tracking, effect packets, client far plane)");
             }
         } catch (IOException | RuntimeException e) {
             throw new IllegalStateException("Bad config " + file, e);
         }
+        dh = FabricLoader.getInstance().isModLoaded("distanthorizons");
+        if (dh) CraterLod.register();
     }
 
     public static boolean isDistant(Entity entity) {
