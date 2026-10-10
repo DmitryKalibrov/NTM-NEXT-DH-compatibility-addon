@@ -1,7 +1,9 @@
 # NTM × Distant Horizons Compat (Fabric 26.2)
 Делает ядерные грибы, облака взрывов, крупные взрывы и полёт ракет NTM-NEXT видимыми на дальности Distant Horizons.
 
-![Uploading image.png…]()
+![Ракета NTM над облаками на дальности Distant Horizons](docs/missile-over-clouds.webp)
+
+Ставить на **сервер и клиент** (в одиночной игре — просто в `mods`). Требует `hbm`, DH рекомендуется.
 
 ## Что делает
 
