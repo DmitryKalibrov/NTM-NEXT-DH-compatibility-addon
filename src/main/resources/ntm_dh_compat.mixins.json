@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "com.hbm.dhcompat.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "TrackedEntityMixin",
+    "TargetPointMixin"
+  ],
+  "client": [
+    "CameraMixin",
+    "ClientLevelMixin",
+    "LevelExtractorMixin",
+    "NukeTorexMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
