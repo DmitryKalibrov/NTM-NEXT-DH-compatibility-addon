@@ -20,12 +20,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  *
  * Client: the mushroom cloud reads the heightmap for its stem base and shockwave ring. In an
  * unloaded chunk that is the world bottom, dragging the stem underground. Use the detonation height.
+ * NTM 1.0.3 does this itself (EntityNukeTorex.surface), so there the injection finds nothing and is skipped.
  */
 @Mixin(targets = "com.hbm.entity.effect.EntityNukeTorex")
 abstract class NukeTorexMixin {
 
     @WrapOperation(
             method = "simulateTick",
+            require = 0,
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/world/level/Level;getHeight(Lnet/minecraft/world/level/levelgen/Heightmap$Types;II)I"))
     private int ntmdh$height(Level level, Heightmap.Types type, int x, int z, Operation<Integer> original) {
