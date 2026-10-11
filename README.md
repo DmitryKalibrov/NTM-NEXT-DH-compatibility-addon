@@ -1,4 +1,9 @@
 # NTM × Distant Horizons Compat (Fabric и NeoForge 26.2)
+
+> **Устарел.** Начиная с NTM-NEXT 1.0.3 (вместе с Crankshaft 1.6.0) всё основное NTM делает сам: дальний трекинг
+> и отрисовку грибов и ракет (`FarVisible`, настройка `farTrackingRange`), глубину LOD и высоту гриба над LOD.
+> Этот мод нужен только для NTM 1.0.2 и с NTM 1.0.3+ не загружается. Аддонам со своими дальними сущностями
+> достаточно реализовать `com.hbm.entity.FarVisible`.
 Делает ядерные грибы, облака взрывов, крупные взрывы и полёт ракет NTM-NEXT видимыми на дальности Distant Horizons.
 
 ![Ракета NTM над облаками на дальности Distant Horizons](docs/missile-over-clouds.webp)

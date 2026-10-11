@@ -3,19 +3,25 @@
   "id": "ntm_dh_compat",
   "version": "${version}",
   "name": "NTM x Distant Horizons Compat",
-  "description": "Makes NTM mushroom clouds, explosions and missiles visible at Distant Horizons range.",
+  "description": "DEPRECATED: NTM-NEXT 1.0.3+ does this itself. For NTM 1.0.2: makes NTM mushroom clouds, explosions and missiles visible at Distant Horizons range.",
   "license": "LGPL-3.0-only",
   "environment": "*",
   "entrypoints": {
-    "main": ["com.hbm.dhcompat.fabric.FabricEntry"],
-    "client": ["com.hbm.dhcompat.fabric.FabricClientEntry"]
+    "main": [
+      "com.hbm.dhcompat.fabric.FabricEntry"
+    ],
+    "client": [
+      "com.hbm.dhcompat.fabric.FabricClientEntry"
+    ]
   },
-  "mixins": ["ntm_dh_compat.mixins.json"],
+  "mixins": [
+    "ntm_dh_compat.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.19.3",
     "minecraft": "~26.2",
     "fabric-api": "*",
-    "hbm": "*"
+    "hbm": ">=1.0.2 <1.0.3-"
   },
   "recommends": {
     "distanthorizons": "*"
