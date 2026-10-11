@@ -25,7 +25,7 @@ import static org.lwjgl.opengl.GL33C.*;
  * mountains. Right after the LOD pass we re-project DH's depth into Minecraft's depth buffer, so
  * LOD terrain occludes like real blocks. Vanilla terrain still draws over it where it is closer.
  */
-final class LodDepth {
+public final class LodDepth {
 
     private static final String VERT = """
             #version 330 core
@@ -58,10 +58,12 @@ final class LodDepth {
     private static boolean broken;
     /** Matrices of the LOD pass in flight; set before DH renders, consumed after it composited. */
     private static DhApiRenderParam pending;
+    /** One-time log line so a silent no-op shows up in latest.log. */
+    private static boolean loggedSkip;
 
     private LodDepth() {}
 
-    static void register() {
+    public static void register() {
         DhApi.events.bind(DhApiBeforeRenderEvent.class, new DhApiBeforeRenderEvent() {
             @Override
             public void beforeRender(DhApiCancelableEventParam<DhApiRenderParam> event) {
@@ -87,9 +89,15 @@ final class LodDepth {
     }
 
     private static void copy(DhApiRenderParam param) {
-        DhApiResult<Integer> dhDepth = DhApi.Delayed.renderProxy.getDhDepthTextureGlId();
+        int dhDepth = dhDepthGlId();
         GpuTexture mcDepth = Minecraft.getInstance().gameRenderer.mainRenderTarget().getDepthTexture();
-        if (!dhDepth.success || dhDepth.payload == null || !(mcDepth instanceof GlTexture mcGl)) return;
+        if (dhDepth <= 0 || !(mcDepth instanceof GlTexture mcGl)) {
+            if (!loggedSkip) {
+                loggedSkip = true;
+                DistantFx.LOG.warn("LOD depth skipped: dh depth texture {}, mc depth {}", dhDepth, mcDepth);
+            }
+            return;
+        }
         if (program == 0) init();
 
         Matrix4f invDhProj = joml(param.dhProjectionMatrix).invert();
@@ -131,7 +139,7 @@ final class LodDepth {
 
             glUseProgram(program);
             glBindVertexArray(vao);
-            glBindTexture(GL_TEXTURE_2D, dhDepth.payload);
+            glBindTexture(GL_TEXTURE_2D, dhDepth);
             glBindSampler(0, 0);
             try (MemoryStack stack = MemoryStack.stackPush()) {
                 FloatBuffer m = stack.mallocFloat(16);
@@ -159,6 +167,20 @@ final class LodDepth {
             glDepthMask(depthMask);
             glColorMask(colorMask[0], colorMask[1], colorMask[2], colorMask[3]);
         }
+    }
+
+    /**
+     * DH's depth texture. Its OPEN_GL engine (picked when Iris is installed) hands out the GL id; the
+     * BLAZE_3D engine (the 26.x default) only a wrapper around Minecraft's GpuTexture, a GlTexture
+     * under the OpenGL backend.
+     */
+    private static int dhDepthGlId() {
+        DhApiResult<Integer> gl = DhApi.Delayed.renderProxy.getDhDepthTextureGlId();
+        if (gl.success && gl.payload != null && gl.payload > 0) return gl.payload;
+        var blaze = DhApi.Delayed.renderProxy.getDhDepthTextureBlazeWrapper();
+        if (blaze.success && blaze.payload != null && blaze.payload.getWrappedMcObject() instanceof Object[] parts
+                && parts.length > 0 && parts[0] instanceof GlTexture texture) return texture.glId();
+        return -1;
     }
 
     private static void init() {

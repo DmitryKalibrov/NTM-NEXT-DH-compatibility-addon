@@ -7,8 +7,8 @@
   "license": "LGPL-3.0-only",
   "environment": "*",
   "entrypoints": {
-    "main": ["com.hbm.dhcompat.DistantFx"],
-    "client": ["com.hbm.dhcompat.DistantFxClient"]
+    "main": ["com.hbm.dhcompat.fabric.FabricEntry"],
+    "client": ["com.hbm.dhcompat.fabric.FabricClientEntry"]
   },
   "mixins": ["ntm_dh_compat.mixins.json"],
   "depends": {

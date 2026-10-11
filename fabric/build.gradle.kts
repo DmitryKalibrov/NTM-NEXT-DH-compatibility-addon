@@ -5,9 +5,14 @@ plugins {
 
 version = property("mod_version")!!
 group = "com.hbm.dhcompat"
-base.archivesName = "ntm-dh-compat"
+base.archivesName = "ntm-dh-compat-fabric"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(25)
+
+sourceSets.main {
+    java.srcDir("../common/src/main/java")
+    resources.srcDir("../common/src/main/resources")
+}
 
 repositories {
     maven("https://api.modrinth.com/maven") { content { includeGroup("maven.modrinth") } }

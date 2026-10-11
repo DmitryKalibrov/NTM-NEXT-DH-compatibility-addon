@@ -4,7 +4,6 @@ import com.seibel.distanthorizons.api.DhApi;
 import com.seibel.distanthorizons.api.interfaces.world.IDhApiLevelWrapper;
 import java.util.ArrayList;
 import java.util.List;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -25,9 +24,9 @@ public final class CraterLod {
 
     private CraterLod() {}
 
-    static void register() {
-        ServerTickEvents.END_SERVER_TICK.register(server ->
-                JOBS.removeIf(j -> j.level.getGameTime() >= j.due && run(j)));
+    /** End of every server tick, while DH is loaded. */
+    public static void tick() {
+        JOBS.removeIf(j -> j.level.getGameTime() >= j.due && run(j));
     }
 
     public static void queue(Entity e, int radius) {

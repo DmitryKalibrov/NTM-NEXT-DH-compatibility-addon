@@ -6,13 +6,13 @@
     "TrackedEntityMixin",
     "TargetPointMixin",
     "NukeExplosionMixin",
-    "FalloutRainMixin"
+    "FalloutRainMixin",
+    "NukeTorexMixin"
   ],
   "client": [
     "CameraMixin",
     "ClientLevelMixin",
     "LevelExtractorMixin",
-    "NukeTorexMixin",
     "MissileContrailMixin"
   ],
   "injectors": {

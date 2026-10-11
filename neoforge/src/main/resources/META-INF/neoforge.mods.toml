@@ -1,0 +1,41 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "LGPL-3.0-only"
+
+[[mods]]
+modId = "ntm_dh_compat"
+version = "${version}"
+displayName = "NTM x Distant Horizons Compat"
+description = "Makes NTM mushroom clouds, explosions and missiles visible at Distant Horizons range."
+
+[[mixins]]
+config = "ntm_dh_compat.mixins.json"
+
+[[mixins]]
+config = "ntm_dh_compat.neoforge.mixins.json"
+
+[[dependencies.ntm_dh_compat]]
+modId = "minecraft"
+type = "required"
+versionRange = "[26.2,26.3)"
+side = "BOTH"
+
+[[dependencies.ntm_dh_compat]]
+modId = "neoforge"
+type = "required"
+versionRange = "[26.2.0.7-beta,26.3)"
+side = "BOTH"
+
+[[dependencies.ntm_dh_compat]]
+modId = "hbm"
+type = "required"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.ntm_dh_compat]]
+modId = "distanthorizons"
+type = "optional"
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"

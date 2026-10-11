@@ -1,0 +1,11 @@
+{
+  "required": false,
+  "package": "com.hbm.dhcompat.neoforge.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": [
+    "DhFadeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

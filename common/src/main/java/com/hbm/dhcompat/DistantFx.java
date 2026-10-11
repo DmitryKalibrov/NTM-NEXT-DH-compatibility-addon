@@ -9,15 +9,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/** Config + the "is this an NTM entity that must be seen from far away" test. */
-public final class DistantFx implements ModInitializer {
+/** Config + the "is this an NTM entity that must be seen from far away" test. Loader entrypoints call {@link #init}. */
+public final class DistantFx {
 
     static final Logger LOG = LoggerFactory.getLogger("ntm_dh_compat");
 
@@ -37,9 +35,8 @@ public final class DistantFx implements ModInitializer {
 
     private static final Map<EntityType<?>, Boolean> CACHE = new ConcurrentHashMap<>();
 
-    @Override
-    public void onInitialize() {
-        Path file = FabricLoader.getInstance().getConfigDir().resolve("ntm_dh_compat.properties");
+    public static void init(Path configDir, boolean dhLoaded) {
+        Path file = configDir.resolve("ntm_dh_compat.properties");
         Properties p = new Properties();
         p.setProperty("range", String.valueOf(range));
         p.setProperty("minEffectRadius", String.valueOf(minEffectRadius));
@@ -61,8 +58,7 @@ public final class DistantFx implements ModInitializer {
         } catch (IOException | RuntimeException e) {
             throw new IllegalStateException("Bad config " + file, e);
         }
-        dh = FabricLoader.getInstance().isModLoaded("distanthorizons");
-        if (dh) CraterLod.register();
+        dh = dhLoaded;
     }
 
     public static boolean isDistant(Entity entity) {
